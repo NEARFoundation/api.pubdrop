@@ -1,6 +1,7 @@
 import { sendCodeByEmail } from './sendCodeByEmail.js';
 import { User } from '../../mongoose/User.js';
-import { generateCode, isDelayOut, validateEmail, checkDropStatus } from './utils.js';
+import { generateCode, validateEmail, checkDropStatus } from './utils.js';
+import { isDelayOut } from '../helpers/isDelayOut.js';
 
 const createUserAndSendCode = async (res, email) => {
   const confirmationCode = generateCode();
