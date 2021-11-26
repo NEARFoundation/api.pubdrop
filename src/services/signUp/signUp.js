@@ -1,15 +1,8 @@
 import { sendCodeByEmail } from './sendCodeByEmail.js';
 import { User } from '../../mongoose/User.js';
+import { generateCode, isDelayOut, validateEmail, checkDropStatus } from './utils.js';
 
-const generateCode = () => 1234;
-
-const validateEmail = (email) => {
-  // check format
-};
-
-const delayOut = (sentAt) => true;
-
-const sendCode = async (res, email) => {
+const createUserAndSendCode = async (res, email) => {
   const confirmationCode = generateCode();
   await sendCodeByEmail(confirmationCode);
 
@@ -26,6 +19,13 @@ const sendCode = async (res, email) => {
 };
 
 const resendCode = async (res, user) => {
+  // If user tries to resend code too often / try to spam - throw an error
+  if (!isDelayOut(user.sentAt)) {
+    return res
+      .status(400)
+      .send({ error: 'You trying to send too many requests. Please try again in a few minutes' });
+  }
+
   const confirmationCode = generateCode();
   await sendCodeByEmail(confirmationCode, user.email);
 
@@ -37,16 +37,25 @@ const resendCode = async (res, user) => {
 };
 
 export const signUp = async (req, res) => {
-  const { email } = req.body;
-  console.log(email);
-
   try {
+    const { email } = req.body;
+    // TODO validate email format
     const user = await User.findOne({ email });
-    // User doesn't exist - happy way
-    if (!user) return await sendCode(res);
-    // If code was sent more than 1 min ago but is not confirmed yet - generate a new one and resend
-    if (!user.isConfirmed && delayOut(user.sentAt)) return await resendCode(res);
 
+    if (!user) return await createUserAndSendCode(res, email);
+    if (!user.isConfirmed) return await resendCode(res, user);
+
+    // If email has been confirmed but user trying to get a new code
+    const isDropClaimed = await checkDropStatus(user);
+
+    if (isDropClaimed) {
+      res.status(400).send({ error: 'You have already claimed your drop' });
+    } else {
+      res.send({
+        publicKey: user.publicKey,
+        secretKey: user.secretKey,
+      });
+    }
   } catch (e) {
     res
       .status(500)
