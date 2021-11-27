@@ -6,6 +6,8 @@ import mongoose from 'mongoose';
 import { getNear } from './helpers/getNear.js';
 import { signUp } from './services/signUp/signUp.js';
 import { confirmEmail } from './services/confirmEmail/confirmEmail.js';
+import { getKeyStatus } from './services/getKeyStatus/getKeyStatus.js';
+import { getCampaignStatus } from './services/getCampaignStatus/getCampaignStatus.js';
 
 await mongoose.connect(process.env.MONGO);
 sendgrid.setApiKey(process.env.SENDGRID_API_KEY);
@@ -22,5 +24,7 @@ app.use((req, res, next) => {
 
 app.post('/signup', signUp);
 app.post('/confirm-email', confirmEmail);
+app.get('/key-status', getKeyStatus);
+app.get('/campaign-status', getCampaignStatus);
 
 app.listen(process.env.PORT);

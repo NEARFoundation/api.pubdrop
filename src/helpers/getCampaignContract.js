@@ -1,6 +1,6 @@
 import { Account, Contract } from 'near-api-js';
 
-export const getContract = (near) =>
+export const getCampaignContract = (near) =>
   new Contract(
     new Account(near.connection, process.env.CAMPAIGN_ID),
     process.env.CAMPAIGN_ID,

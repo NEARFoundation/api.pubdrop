@@ -12,7 +12,6 @@ export const signUp = async (req, res) => {
     if (!user) return await createUserAndSendCode(res, email);
     if (!user.isConfirmed) return await resendCode(res, user);
 
-    // If email has been confirmed but user trying to get a new code
     const isKeyActive = await isAccessKey(req.near, user.publicKey);
 
     if (isKeyActive) {

@@ -1,11 +1,11 @@
-import { getContract } from '../../helpers/getContract.js';
+import { getCampaignContract } from '../../helpers/getCampaignContract.js';
 import { getED25519KeyPair } from '../../helpers/getED25519KeyPair.js';
 
 export const confirmAndCreateClaimKey = async (req, res, user) => {
   const { publicKey, secretKey } = getED25519KeyPair(user.email);
 
-  const contract = getContract(req.near);
-  await contract.add_claim_key({ args: { public_key: publicKey } });
+  const campaign = getCampaignContract(req.near);
+  await campaign.add_claim_key({ args: { public_key: publicKey } });
 
   user.isConfirmed = true;
   user.confirmAttemptAt = Date.now();
