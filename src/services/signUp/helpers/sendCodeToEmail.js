@@ -1,7 +1,8 @@
 import sendgrid from '@sendgrid/mail';
 
-export const sendCodeByEmail = async (code, email) => {
+export const sendCodeToEmail = async (code, email) => {
   console.log(`Sent code ${code} to ${email}`);
+  // TODO Send real email
   return;
   await sendgrid.send({
     to: 'volodymyr@near.foundation',

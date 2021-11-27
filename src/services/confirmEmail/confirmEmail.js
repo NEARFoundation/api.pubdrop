@@ -1,22 +1,10 @@
 import { User } from '../../mongoose/User.js';
-import { isDelayOut } from '../helpers/isDelayOut.js';
-
-const confirmAndCreateClaimKey = async (res, user) => {
-  // TODO create key and add it into contract state
-
-  const publicKey = 'public-key';
-  const secretKey = 'secret-key';
-
-  user.isConfirmed = true;
-  user.secretKey = secretKey;
-  user.secretKey = secretKey;
-  await user.save();
-
-  res.send({ publicKey, secretKey });
-};
+import { isDelayOut } from '../../helpers/isDelayOut.js';
+import { confirmAndCreateClaimKey } from './confirmAndCreateClaimKey.js';
 
 export const confirmEmail = async (req, res) => {
   try {
+    // TODO validate email / code format
     const { email, confirmationCode } = req.body;
     const user = await User.findOne({ email });
 
@@ -40,7 +28,7 @@ export const confirmEmail = async (req, res) => {
       return res.status(400).send({ error: 'Code does not match to this email' });
     }
 
-    await confirmAndCreateClaimKey(res, user);
+    await confirmAndCreateClaimKey(req, res, user);
   } catch (e) {
     res.status(500).send({ error: 'Your email was not confirmed. Please try again' });
   }
