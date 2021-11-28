@@ -4,7 +4,7 @@ import { sendCodeToEmail } from './helpers/sendCodeToEmail.js';
 
 export const createUserAndSendCode = async (res, email) => {
   const confirmationCode = generateConfirmationCode();
-  await sendCodeToEmail(confirmationCode);
+  await sendCodeToEmail(confirmationCode, email);
 
   await User.create({
     email,

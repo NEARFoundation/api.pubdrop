@@ -5,7 +5,7 @@ import { getED25519KeyPair } from './getED25519KeyPair.js';
 export const getNear = async () => {
   const keyStore = new keyStores.InMemoryKeyStore();
   const keyPair = KeyPair.fromString(getED25519KeyPair().secretKey);
-  await keyStore.setKey('testnet', process.env.PUBDROP_CAMPAIGN_ID, keyPair);
+  await keyStore.setKey('testnet', process.env.CAMPAIGN_ID, keyPair);
 
   // TODO Change config to .env
   const config = {

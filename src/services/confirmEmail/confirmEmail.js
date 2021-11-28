@@ -30,6 +30,7 @@ export const confirmEmail = async (req, res) => {
 
     await confirmAndCreateClaimKey(req, res, user);
   } catch (e) {
+    console.log(e);
     res.status(500).send({ error: 'Your email was not confirmed. Please try again' });
   }
 };
