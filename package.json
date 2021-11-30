@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "node src/index.js",
-    "start-dev": "nodemon src/index.js"
+    "start-dev-testnet": "nodemon -r dotenv/config src/index.js dotenv_config_path=.env.development",
+    "start-dev-mainnet": "nodemon -r dotenv/config src/index.js dotenv_config_path=.env.production"
   },
   "dependencies": {
     "@sendgrid/mail": "^7.6.0",

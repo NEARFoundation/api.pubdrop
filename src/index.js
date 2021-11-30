@@ -1,4 +1,3 @@
-import _ from 'dotenv/config.js';
 import express from 'express';
 import sendgrid from '@sendgrid/mail';
 import cors from 'cors';
