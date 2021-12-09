@@ -2,7 +2,8 @@ import { getCampaignContract } from '../../helpers/getCampaignContract.js';
 
 export const getCampaignStatus = async (req, res) => {
   try {
-    const campaign = getCampaignContract(req.near);
+    const { event } = req.query;
+    const campaign = getCampaignContract(req.near, event);
     const metadata = await campaign.get_metadata();
     res.send({ isActive: metadata.active_drops > 0 });
   } catch (e) {

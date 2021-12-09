@@ -7,8 +7,8 @@ import { isAccessKey } from '../../helpers/isAccessKey.js';
 
 export const getKeyStatus = async (req, res) => {
   try {
-    const { publicKey } = req.query;
-    const isKey = await isAccessKey(req.near, publicKey);
+    const { publicKey, event } = req.query;
+    const isKey = await isAccessKey(req.near, publicKey, event);
     res.send({ isActive: isKey });
   } catch (e) {
     res.status(500).send({ error: 'Cannot check key status. Please try again' });
