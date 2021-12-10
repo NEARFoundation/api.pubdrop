@@ -6,13 +6,15 @@ import { isAccessKey } from '../../helpers/isAccessKey.js';
 export const signUp = async (req, res) => {
   try {
     const { email } = req.body;
+    const { event } = req.query;
+
     // TODO validate email format
     const user = await User.findOne({ email });
 
-    if (!user) return await createUserAndSendCode(res, email);
+    if (!user) return await createUserAndSendCode(res, email, event);
     if (!user.isConfirmed) return await resendCode(res, user);
 
-    const isKeyActive = await isAccessKey(req.near, user.publicKey);
+    const isKeyActive = await isAccessKey(req.near, user.publicKey, event);
 
     if (isKeyActive) {
       res.send({

@@ -6,6 +6,8 @@ export const confirmEmail = async (req, res) => {
   try {
     // TODO validate email / code format
     const { email, confirmationCode } = req.body;
+    const { event } = req.query;
+
     const user = await User.findOne({ email });
 
     if (!user)
@@ -28,7 +30,7 @@ export const confirmEmail = async (req, res) => {
       return res.status(400).send({ error: 'Code does not match to this email' });
     }
 
-    await confirmAndCreateClaimKey(req, res, user);
+    await confirmAndCreateClaimKey(req, res, user, event);
   } catch (e) {
     console.log(e);
     res.status(500).send({ error: 'Your email was not confirmed. Please try again' });

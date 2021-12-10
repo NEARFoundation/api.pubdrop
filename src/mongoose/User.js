@@ -8,6 +8,7 @@ const user = new Schema({
     unique: true,
     required: true,
   },
+  event: String,
   confirmationCode: Number,
   isConfirmed: Boolean,
   sentAt: { type: Date, default: Date.now },
