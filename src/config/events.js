@@ -1,19 +1,18 @@
 export const events = {
-  'miami-testnet': {
-    campaignId: 'dev-1637570167698-74050947045323',
-    emailTemplateId: 'd-71ce9ef104a346168522f42abd3e4999',
-  },
   'miami-mainnet': {
+    network: 'mainnet',
     campaignId: 'miami-neardrop.near',
     emailTemplateId: 'd-71ce9ef104a346168522f42abd3e4999',
   },
-  'newYork-testnet': {
-    campaignId: 'dev-1637570167698-74050947045323', // TODO Replace
-    emailTemplateId: 'd-71ce9ef104a346168522f42abd3e4999', // TODO Replace
+  'miami-testnet': {
+    network: 'testnet',
+    campaignId: 'dev-1637570167698-74050947045323',
+    emailTemplateId: 'd-71ce9ef104a346168522f42abd3e4999',
   },
   'newYork-mainnet': {
-    campaignId: 'miami-neardrop.near', // TODO Replace
-    emailTemplateId: 'd-71ce9ef104a346168522f42abd3e4999', // TODO Replace
+    network: 'mainnet',
+    campaignId: 'nyc-neardrop.near',
+    emailTemplateId: 'd-673454262c2a43ae8cd2779c55bf8318',
   },
 };
 

@@ -10,8 +10,11 @@ export const getNear = async () => {
   const keyStore = new keyStores.InMemoryKeyStore();
   const keyPair = KeyPair.fromString(getED25519KeyPair().secretKey);
 
-  await keyStore.setKey(networkId, events.miami.campaignId, keyPair);
-  await keyStore.setKey(networkId, events.newYork.campaignId, keyPair);
+  await Promise.all(
+    Object.values(events)
+      .filter(({ network }) => network === networkId)
+      .map(({ network, campaignId }) => keyStore.setKey(network, campaignId, keyPair)),
+  );
 
   return connect({
     networkId,
