@@ -14,6 +14,11 @@ export const events = {
     campaignId: 'nyc-neardrop.near',
     emailTemplateId: 'd-673454262c2a43ae8cd2779c55bf8318',
   },
+  'sf-mainnet': {
+    network: 'mainnet',
+    campaignId: 'sf-neardrop.near',
+    emailTemplateId: 'd-bf53cf8c038246efa94e15f6d5710753',
+  },
 };
 
 export const getEvent = (event) => {
