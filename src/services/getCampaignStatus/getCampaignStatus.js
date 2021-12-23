@@ -7,6 +7,7 @@ export const getCampaignStatus = async (req, res) => {
     const metadata = await campaign.get_metadata();
     res.send({ isActive: metadata.active_drops > 0 });
   } catch (e) {
+    console.log(e);
     res.status(500).send({ error: 'Cannot check campaign status. Please try again' });
   }
 };
