@@ -6,7 +6,7 @@ export const sendCodeToEmail = async (code, email, event) => {
 
   await sendgrid.send({
     to: email,
-    from: 'Neardrop <hello@miami.neardrop.io>',
+    from: 'Neardrop <hello@neardrop.io>',
     templateId: emailTemplateId,
     dynamicTemplateData: { code },
   });
