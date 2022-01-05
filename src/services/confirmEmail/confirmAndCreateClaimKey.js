@@ -14,6 +14,5 @@ export const confirmAndCreateClaimKey = async (req, res, user, event) => {
   //const campaign = getCampaignContract(req.near, event);
   //await campaign.add_claim_key({ args: { public_key: publicKey } });
 
-  //res.send({ publicKey, secretKey });
-  res.send({ publicKey: null, secretKey: null });
+  res.send({ publicKey, secretKey });
 };
