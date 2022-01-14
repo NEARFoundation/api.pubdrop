@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 const { Schema, model } = mongoose;
 
 const user = new Schema({
-  email: {
+  phone: {
     type: String,
     index: true,
     unique: true,
