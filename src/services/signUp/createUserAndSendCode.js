@@ -1,13 +1,13 @@
 import { User } from '../../mongoose/User.js';
 import { generateConfirmationCode } from './helpers/generateConfirmationCode.js';
-import { sendCodeToEmail } from './helpers/sendCodeToEmail.js';
+import { sendSmsWithCode } from './helpers/sendSmsWithCode.js';
 
-export const createUserAndSendCode = async (res, email, event) => {
+export const createUserAndSendCode = async (res, phone, event) => {
   const confirmationCode = generateConfirmationCode();
-  await sendCodeToEmail(confirmationCode, email, event);
+  await sendSmsWithCode(confirmationCode, phone);
 
   await User.create({
-    email,
+    phone,
     event,
     confirmationCode,
     isConfirmed: false,
