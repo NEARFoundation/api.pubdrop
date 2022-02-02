@@ -1,12 +1,19 @@
 import { User } from '../../mongoose/User.js';
 import { isDelayOut } from '../../helpers/isDelayOut.js';
 import { confirmAndCreateClaimKey } from './confirmAndCreateClaimKey.js';
+import { checkCampaignStatus } from "../getCampaignStatus/checkCampaignStatus.js";
 
 export const confirmPhoneNumber = async (req, res) => {
   try {
     // TODO validate phone / code format
     const { phone, confirmationCode } = req.body;
     const { event } = req.query;
+
+    if (!await checkCampaignStatus(event, req.near)) {
+      return res
+        .status(400)
+        .send({ error: 'The company is not active' });
+    }
 
     const user = await User.findOne({ phone });
 

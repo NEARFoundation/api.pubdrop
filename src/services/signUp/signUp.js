@@ -3,6 +3,7 @@ import { User } from '../../mongoose/User.js';
 import { resendCode } from './resendCode.js';
 import { isAccessKey } from '../../helpers/isAccessKey.js';
 import { checkReCaptcha } from "./helpers/checkReCaptcha.js";
+import { checkCampaignStatus } from "../getCampaignStatus/checkCampaignStatus.js";
 
 export const signUp = async (req, res) => {
   try {
@@ -15,6 +16,12 @@ export const signUp = async (req, res) => {
       return res
         .status(400)
         .send({ error: 'Didn\'t complete the reCAPTCHA' });
+    }
+
+    if (!await checkCampaignStatus(event, req.near)) {
+      return res
+        .status(400)
+        .send({ error: 'The company is not active' });
     }
 
     // TODO validate phone format
