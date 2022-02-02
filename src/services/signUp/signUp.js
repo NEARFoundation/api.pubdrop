@@ -11,17 +11,17 @@ export const signUp = async (req, res) => {
     const { event } = req.query;
     const token = req.body["g-recaptcha-response"];
 
+    if (!await checkCampaignStatus(event, req.near)) {
+      return res
+        .status(400)
+        .send({ error: 'The company is not active' });
+    }
+
     const isReCaptchaComplete = await checkReCaptcha(token);
     if (!isReCaptchaComplete) {
       return res
         .status(400)
         .send({ error: 'Didn\'t complete the reCAPTCHA' });
-    }
-
-    if (!await checkCampaignStatus(event, req.near)) {
-      return res
-        .status(400)
-        .send({ error: 'The company is not active' });
     }
 
     // TODO validate phone format
