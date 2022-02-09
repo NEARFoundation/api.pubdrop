@@ -1,8 +1,10 @@
 import { isDelayOut } from '../../helpers/isDelayOut.js';
 import { generateConfirmationCode } from './helpers/generateConfirmationCode.js';
 import { sendSmsWithCode } from './helpers/sendSmsWithCode.js';
+import { sendCodeToEmail } from "./helpers/sendCodeToEmail.js";
+import { isThisAnEmailCheck } from "../../config/verificationMethod.js";
 
-export const resendCode = async (res, user) => {
+export const resendCode = async (res, user, event) => {
   // If user tries to resend code too often / try to spam - throw an error
   if (!isDelayOut(user.sentAt)) {
     return res
@@ -11,7 +13,11 @@ export const resendCode = async (res, user) => {
   }
 
   const confirmationCode = generateConfirmationCode();
-  await sendSmsWithCode(confirmationCode, user.phone);
+  if (isThisAnEmailCheck(event)) {
+    await sendCodeToEmail(confirmationCode, user.phone)
+  } else {
+    await sendSmsWithCode(confirmationCode, user.phone);
+  }
 
   user.confirmationCode = confirmationCode;
   user.sentAt = Date.now();

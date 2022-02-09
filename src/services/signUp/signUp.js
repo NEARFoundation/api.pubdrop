@@ -4,10 +4,10 @@ import { resendCode } from './resendCode.js';
 import { isAccessKey } from '../../helpers/isAccessKey.js';
 import { checkReCaptcha } from "./helpers/checkReCaptcha.js";
 import { checkCampaignStatus } from "../getCampaignStatus/checkCampaignStatus.js";
+import { isThisAnEmailCheck } from "../../config/verificationMethod.js";
 
 export const signUp = async (req, res) => {
   try {
-    let { phone } = req.body;
     const { event } = req.query;
     const token = req.body["g-recaptcha-response"];
 
@@ -24,13 +24,35 @@ export const signUp = async (req, res) => {
         .send({ error: 'Didn\'t complete the reCAPTCHA' });
     }
 
-    // TODO validate phone format
-    phone = phone.replace(/[\s-()]/g, '');
-    phone = (phone.substring(0, 1) !== '+' ? '+' : '') + phone;
-    const user = await User.findOne({ phone });
+    let userId;
+    if (isThisAnEmailCheck(event)) {
+      let { email } = req.body;
 
-    if (!user) return await createUserAndSendCode(res, phone, event);
-    if (!user.isConfirmed) return await resendCode(res, user);
+      if (!email) {
+        return res
+          .status(400)
+          .send({ error: 'Email address not specified' });
+      }
+      // TODO validate email format
+
+      userId = email;
+    } else {
+      let { phone } = req.body;
+
+      if (!phone) {
+        return res
+          .status(400)
+          .send({ error: 'Phone number not specified' });
+      }
+      // TODO validate phone format
+
+      phone = phone.replace(/[\s-()]/g, '');
+      userId = (phone.substring(0, 1) !== '+' ? '+' : '') + phone;
+    }
+    const user = await User.findOne({ phone: userId });
+
+    if (!user) return await createUserAndSendCode(res, userId, event);
+    if (!user.isConfirmed) return await resendCode(res, user, event);
 
     const isKeyActive = await isAccessKey(req.near, user.publicKey, event);
 
@@ -46,6 +68,6 @@ export const signUp = async (req, res) => {
     console.log(e);
     res
       .status(500)
-      .send({ error: 'An SMS with a confirmation code was not sent. Please try again later' });
+      .send({ error: 'Verification code was not sent. Please try again later' });
   }
 };

@@ -19,6 +19,10 @@ export const events = {
     network: 'mainnet',
     campaignId: 'hongbao-neardrop.near',
   },
+  'ethdenver-mainnet': {
+    network: 'mainnet',
+    campaignId: 'ethdenver-neardrop.near',
+  },
 };
 
 export const getEvent = (event) => {
