@@ -14,7 +14,7 @@ export const resendCode = async (res, user, event) => {
 
   const confirmationCode = generateConfirmationCode();
   if (isThisAnEmailCheck(event)) {
-    await sendCodeToEmail(confirmationCode, user.phone)
+    await sendCodeToEmail(confirmationCode, user.phone, event)
   } else {
     await sendSmsWithCode(confirmationCode, user.phone);
   }

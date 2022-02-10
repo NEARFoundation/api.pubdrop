@@ -7,7 +7,7 @@ import { isThisAnEmailCheck } from "../../config/verificationMethod.js";
 export const createUserAndSendCode = async (res, userId, event) => {
   const confirmationCode = generateConfirmationCode();
   if (isThisAnEmailCheck(event)) {
-    await sendCodeToEmail(confirmationCode, userId)
+    await sendCodeToEmail(confirmationCode, userId, event)
   } else {
     await sendSmsWithCode(confirmationCode, userId);
   }

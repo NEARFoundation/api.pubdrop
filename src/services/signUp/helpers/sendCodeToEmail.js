@@ -1,7 +1,7 @@
 import sendgrid from '@sendgrid/mail';
 
-export const sendCodeToEmail = async (code, email) => {
-  let emailTemplateId = process.env.SENDGRID_TEMPLATE_ID;
+export const sendCodeToEmail = async (code, email, event = '') => {
+  let emailTemplateId = process.env['SENDGRID_' + event.toUpperCase() + '_TEMPLATE_ID'];
   let sender = process.env.SENDGRID_SENDER;
 
   await sendgrid.send({
