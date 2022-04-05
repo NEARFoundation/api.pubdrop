@@ -23,6 +23,10 @@ export const events = {
     network: 'mainnet',
     campaignId: 'ethdenver-neardrop.near',
   },
+  'brand-mainnet': {
+    network: 'mainnet',
+    campaignId: 'brand-neardrop.near',
+  }
 };
 
 export const getEvent = (event) => {
