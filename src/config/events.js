@@ -26,6 +26,10 @@ export const events = {
   'brand-mainnet': {
     network: 'mainnet',
     campaignId: 'brand-neardrop.near',
+  },
+  'bermuda-mainnet': {
+    network: 'mainnet',
+    campaignId: 'bermuda-neardrop.near',
   }
 };
 
